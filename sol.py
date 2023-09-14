@@ -29,10 +29,21 @@ def max_demora(videos):
 
 
 def main():
+    if sys.stdin.isatty():
+        print("Ingresar en cada linea un entrenamiento con el formato 's,i', terminar lista con crln+d\n(la primer linea es ignorada)")
     try:
         sys.stdin.readline() # skip headers
         videos = [Demora(*map(int, line.split(','))) for line in sys.stdin]
-        print('\n'.join( map(str, ordenar(videos)) ))
+        orden_optimo = ordenar(videos)
+        if len(orden_optimo) > 100:
+            print('El orden optimo es muy largo para mostrarlo completo, mostrando principio y final:')
+            print('\n'.join( map(str, orden_optimo[:10]) ))
+            print('...')
+            print('\n'.join( map(str, orden_optimo[-10:]) ))
+        else:
+            print('Orden optimo:')
+            print('\n'.join( map(str, orden_optimo) ))
+        print(f'Tiempo optimo: {max_demora(orden_optimo)}')
     except TypeError:
         print('Invalid input: Expected 2 comma separated arguments per line', file=sys.stderr)
     except ValueError:
