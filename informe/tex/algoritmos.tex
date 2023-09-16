@@ -32,21 +32,7 @@ Con esto en mente, si partimos de una configuraci\'on \'optima, podemos realizar
 
 \subsection{Implementaci\'on}
 
-\begin{lstlisting}[language=Python]
-from collections import namedtuple
-import heapq
-
-Demora = namedtuple("Demora", ['s', 'a'])
-Demora.__le__ = lambda self, other: self.a >= other.a
-Demora.__ge__ = lambda self, other: self.a <= other.a
-Demora.__lt__ = lambda self, other: self.a > other.a
-Demora.__gt__ = lambda self, other: self.a < other.a
-
-def ordenar(datos: list[Demora]):
-    """ Requiere que (x < y) <=> (x.a > y.a) """
-    heapq.heapify(datos)
-    return [heapq.heappop(datos) for _ in range(len(datos))]
-\end{lstlisting}
+\lstinputlisting[language=Python]{code/solution.py}
 
 La ecuaci\'on de recurrencia que corresponde a este algoritmo es: 
 \begin{equation*} %nota: el asterisco es para que no aparezca el (1) al lado de la ecuación
