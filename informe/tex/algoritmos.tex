@@ -1,0 +1,56 @@
+\subsection{Algoritmo}
+
+Para minimizar $\mathcal{M}$, proponemos un algoritmo \textit{Greedy} que siempre toma el elemento de mayor $a_i$. Esto es, ordenando de mayor a menor ignorando los valores de $s_i$.
+
+\subsubsection{Optimalidad}
+
+Sabemos que al intercambiar dos elementos, solo es necesario ver que pasa con $\mathcal{S}_i + a_i$ y $\mathcal{S}_{i+1} + a_{i+1}$, ya que $\mathcal{S}_k + a_k$ es independiente del orden en el que est\'an los elementos anteriores, o los que le siguen. Consideremos que pasa al intercambiar dos elementos adyacentes $d_i$ y $d_{i+1}$:
+
+\begin{equation*}
+    A := \mathcal{S}_i + a_i
+\end{equation*}
+\begin{equation*}
+    B := \mathcal{S}_i + s_{i+1} + a_{i+1}
+\end{equation*}
+
+Al intercambiarlos, obtendr\'iamos:
+
+\begin{equation*}
+    A' := \mathcal{S}_i + s_{i+1} + a_i
+\end{equation*}
+\begin{equation*}
+    B' := \mathcal{S}_i + a_{i+1}
+\end{equation*}
+
+\begin{itemize}
+    \item $a_i < a_{i+1} \implies B > A' \land B > B'$. Intercambiamos, $\mathcal{M'} \le \mathcal{M}$.
+    \item $a_i = a_{i+1} \implies B = A' \land A = B'$. Intercambiemos o no, $\mathcal{M'} = \mathcal{M}$.
+    \item $a_i > a_{i+1} \implies A < B' \land B < B'$. No intercambiamos. $\mathcal{M'} = \mathcal{M}$.
+\end{itemize}
+
+Con esto en mente, si partimos de una configuraci\'on \'optima, podemos realizar intercambios hasta ordenar los elementos seg\'un nuestro criterio sin empeorar el valor de $\mathcal{M}$, lo que demuestra que nuestro criterio es tan bueno como el \'optimo.
+
+\subsection{Implementaci\'on}
+
+\begin{lstlisting}[language=Python]
+from collections import namedtuple
+import heapq
+
+Demora = namedtuple("Demora", ['s', 'a'])
+Demora.__le__ = lambda self, other: self.a >= other.a
+Demora.__ge__ = lambda self, other: self.a <= other.a
+Demora.__lt__ = lambda self, other: self.a > other.a
+Demora.__gt__ = lambda self, other: self.a < other.a
+
+def ordenar(datos: list[Demora]):
+    """ Requiere que (x < y) <=> (x.a > y.a) """
+    heapq.heapify(datos)
+    return [heapq.heappop(datos) for _ in range(len(datos))]
+\end{lstlisting}
+
+La ecuaci\'on de recurrencia que corresponde a este algoritmo es: 
+\begin{equation*} %nota: el asterisco es para que no aparezca el (1) al lado de la ecuación
+    \mathcal{T}(n) = \mathcal{T}\left(n - 1\right) + \mathcal{O}\left(\log n\right)
+\end{equation*}
+
+Esto es porque la operaci\'on \texttt{heapify} es lineal, y \texttt{heappop} es logar\'itmica, al iterar por todos los elementos, obtenemos un ordenamiento $\mathcal{O}\left(n \log n\right)$.

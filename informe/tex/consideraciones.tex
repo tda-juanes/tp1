@@ -1,0 +1,20 @@
+\section{Introducci\'on}
+
+En el presente trabajo pr\'actico se realiza un analisis de un algoritmo \textit{Greedy} para resolver un problema de minimizaci\'on.
+
+\section{Problema}
+
+Dada una lista de entrenamientos $E$, siendo que cada entrenamiento $e$ esta compuesto por dos an\'alisis necesarios, el de Scaloni $s$ y el de uno de sus asistentes $a$.
+
+Todo entrenamiento debe primero ser completado por Scaloni ($s$) para que luego sea posible realizar el analisis de un asistente ($a$).El analisis de Scaloni $s$  es un recurso compartido entre todos los entrenamientos ($E$), pero los analisis de asistentes son independientes entre si (cada entrenamiento tiene su propio asistente dedicado).
+
+Por ende se afirma que el tiempo de finalización de cada entrenamiento ($e$) depende del tiempo que le haya tomado a Scaloni analizar los entrenamiento anteriores a este, sin importar lo requerido por cada asistente.
+
+El tiempo requerido para analizar todos los entrenamientos entonces es el m\'aximo empleado por alguno de los entrenaientos. Si consideramos a la lista de entrenamientos $E$ como una lista de tuplas $\left( s, a \right)$, con $s$ y $a$ positivos, nuestro objetivo es ordenar la lista de manera de minimizar:
+
+\begin{equation}
+    \mathcal{M} = \max_{0 \le k < n}\left(\mathcal{S}_k + a_k\right)
+\end{equation}
+\begin{equation*}
+    \text{con } \mathcal{S}_k := \sum_{i=0}^{k} s_i
+\end{equation*}
