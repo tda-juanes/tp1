@@ -1,6 +1,8 @@
 from collections import namedtuple
 import heapq
 import sys
+
+
 # type(Demora.*) = int
 Demora = namedtuple("Demora", ['s', 'a'])
 Demora.__repr__ = lambda self: f'{self.s},{self.a}'
@@ -30,17 +32,20 @@ def max_demora(videos):
 
 def main():
     if sys.stdin.isatty():
-        print("Ingresar en cada linea un entrenamiento con el formato 's,a', terminar lista con Ctrl+D\n(la primer linea es ignorada)", file=sys.stderr)
-    try:
+        print("Ingresar un entrenamiento por linea con el formato 's,a'", file=sys.stderr)
+    else:
         sys.stdin.readline() # skip headers
+
+    try:
         videos = [Demora(*map(int, line.split(','))) for line in sys.stdin]
         orden_optimo = ordenar(videos)
-        print('\n'.join( map(str, orden_optimo) ))
-        print(f'Tiempo optimo: {max_demora(orden_optimo)}', file=sys.stderr)
     except TypeError:
         print('Invalid input: Expected 2 comma separated arguments per line', file=sys.stderr)
     except ValueError:
         print('Invalid input: Arguments must be valid integers', file=sys.stderr)
+    else:
+        print('\n'.join( map(str, orden_optimo) ))
+        print(f'Tiempo optimo: {max_demora(orden_optimo)}', file=sys.stderr)
 
 
 if __name__ == '__main__':
