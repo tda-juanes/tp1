@@ -1,5 +1,7 @@
+import os
+import sys
 import unittest
-from main import ordenar, Demora
+from main import main, ordenar, Demora
 
 class TestOrdenarDemora(unittest.TestCase):
 
@@ -53,7 +55,7 @@ class TestOrdenarDemora(unittest.TestCase):
 
     def test_sort_ayudante_ignore_scaloni(self):
         demoras = [
-            Demora(1e14, 2),
+            Demora(123456789, 2),
             Demora(2, 20),
             Demora(42, 1),
             Demora(1024, 4),
@@ -61,7 +63,44 @@ class TestOrdenarDemora(unittest.TestCase):
         sol = [
             Demora(2, 20),
             Demora(1024, 4),
-            Demora(1e14, 2),
+            Demora(123456789, 2),
             Demora(42, 1),
         ]
         self.assertEqual(ordenar(demoras), sol)
+
+
+    def test_process_file(self):
+        demoras = [
+            Demora(123456789, 2),
+            Demora(2, 20),
+            Demora(42, 1),
+            Demora(1024, 4),
+        ]
+        sol = [
+            Demora(2, 20),
+            Demora(1024, 4),
+            Demora(123456789, 2),
+            Demora(42, 1),
+        ]
+        expected_output = '\n'.join( map(str, sol) ) + '\n'
+
+        input_filename = 'test_process_file_in.tmp'
+        output_filename = 'test_process_file_out.tmp'
+        with open(input_filename, 'w+') as input_file, \
+            open(output_filename, 'w+') as output_file, \
+            open('/dev/null', 'w+') as devnull:
+            
+            # write demoras to input file
+            print('s,a', file=input_file)
+            for demora in demoras:
+                print(demora, file=input_file)
+            input_file.seek(0)
+            # run main which writes sorted list to stdout
+            sys.stdin = input_file
+            sys.stdout = output_file
+            sys.stderr = devnull
+            main()
+            output_file.seek(0)
+            self.assertEqual(output_file.read(), expected_output)
+        os.remove(input_filename)       
+        os.remove(output_filename)
