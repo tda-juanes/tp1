@@ -27,11 +27,13 @@ def main():
     if not 1 < len(sys.argv) < 5:
         print(
             'Usage:\n'
-            'python3 benchmark.py $START $STOP $STEP\n'
-            "Example: 'python3 benchmark.py 100000 1000000 100000'\n",
+            'python3 benchmark.py STOP\n'
+            'python3 benchmark.py START STOP\n'
+            'python3 benchmark.py START STOP STEP\n'
+            "Example: 'python3 benchmark.py 100000 1000001 100000'\n",
             file=sys.stderr
         )
-        exit()
+        exit(1)
     rango = range(*map(int, sys.argv[1:]))
     benchmark(rango)
 
