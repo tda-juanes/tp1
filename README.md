@@ -6,14 +6,14 @@
 - [Juan Martín Muñoz](https://github.com/juan518munoz) - 106699
 
 ## Uso
-Ejecutar el programa `sol.py` de dos maneras posibles:
+Ejecutar el programa `main.py` de dos maneras posibles:
 
 **Con un archivo de entrada:**
 ```bash
-python3 sol.py < input.txt
+python3 main.py < input.txt
 ```
 
 **Ingresando los datos manualmente:**
 ```bash
-python3 sol.py
+python3 main.py
 ```
