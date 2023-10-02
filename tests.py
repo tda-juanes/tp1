@@ -89,7 +89,7 @@ class TestOrdenarDemora(unittest.TestCase):
         with open(input_filename, 'w+') as input_file, \
             open(output_filename, 'w+') as output_file, \
             open('/dev/null', 'w+') as devnull:
-            
+
             # write demoras to input file
             print('s,a', file=input_file)
             for demora in demoras:
@@ -102,5 +102,5 @@ class TestOrdenarDemora(unittest.TestCase):
             main()
             output_file.seek(0)
             self.assertEqual(output_file.read(), expected_output)
-        os.remove(input_filename)       
+        os.remove(input_filename)
         os.remove(output_filename)
